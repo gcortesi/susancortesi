@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ site.rootpath }}/assets/css/style.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-11743206-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-11743206-8');
+    </script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="{{ site.url }}">Susan Cortesi Gallery</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Visit
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="height: auto; max-height: 400px; overflow-x: hidden;">
+                <a class="dropdown-item" href="{{ site.url }}/quilts.html">Quilts</a>
+                <a class="dropdown-item" href="{{ site.url }}/paintings.html">Paintings</a>
+                <a class="dropdown-item" href="{{ site.url }}/photos.html">Photos</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2 image_search" type="search" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top:70px;">
+      <div class="row">
+        <div class="col-md-4 col-lg-3 d-none d-md-block">
+          <div class="card">
+            <div class="card-header">
+              <form>
+                <div class="form-group" style="margin:0px;">
+                  <input type="text" class="form-control image_search" placeholder="Search Images">
+                </div>
+              </form>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" style="padding: 0px;">
+                    <div style="margin:5px;"><a class="badge badge-info" href="{{ site.url }}/quilts.html" style="width: 100%;font-size: 15px;">Quilts</a></div>
+                    <div style="margin:5px;"><a class="badge badge-info" href="{{ site.url }}/paintings.html" style="width: 100%;font-size: 15px;">Paintings</a></div>
+                    <div style="margin:5px;"><a class="badge badge-info" href="{{ site.url }}/photos.html" style="width: 100%;font-size: 15px;">Photos</a></div>
+              </li>    
+              <li class="list-group-item" style="padding: 0px;">
+                <a class="badge badge-danger" href="https://github.com/timcortesi/momgallery/edit/master/{{ page.path }}" style="width:100%;font-size:15px;border-top-left-radius:0;border-top-right-radius:0;">
+                  Edit This Page
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-8 col-lg-9">
+          <h1>{% if page.title == blank %} {{ page.name }} {% else %} {{ page.title }} {% endif %}</h1>
+          <section>
+            {{ content }}
+          </section>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Footer -->
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="{{ site.rootpath }}/assets/js/jquery.autocomplete.js" type="text/javascript" crossorigin="anonymous"></script>
+    <script src="{{ site.rootpath }}/assets/js/lodash.js" type="text/javascript" crossorigin="anonymous"></script>
+    <script>
+      var images = [
+        {% for page in site.pages %}{% for image in page.images %}{% if image.title != blank %}{
+          "url":`{{ page.url }}#{{ forloop.index }}{{ image.title | slugify }}`,
+          "value":_.unescape(`{{ image.title }} ({{ page.title }})`)
+        },{% endif %}{% endfor %}{% endfor %}
+      ];
+      $('.image_search').autocomplete({
+          lookup: images,
+          onSelect: function (suggestion) {
+              window.location = "{{ site.url }}"+suggestion.url
+          }
+      });
+    </script>
+  </body>
+</html>

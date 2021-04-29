@@ -1,0 +1,45 @@
+--- 
+layout: default
+---
+
+{{ content }}
+
+<div class="row">
+    {% for image in page.images %}
+    <div class="col-lg-4 col-sm-6">
+        <a name="{{ forloop.index }}{{ image.title | slugify }}" class="anchor"></a>
+        <div class="card" data-toggle="modal" data-target="#modal-{{ forloop.index }}" style="margin-bottom:20px;">
+            <img class="card-img-top" src="https://awvdvowren.cloudimg.io/crop/300x300/x/{{ site.url }}/images/{{ page.title | slugify}}/{{ image.files[0] }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ image.title }}</h5>
+                <p class="card-text">{{ image.description }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-{{ forloop.index }}" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modal-{{ forloop.index }}Label">{{ image.title }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ image.description }}</p>
+                {% for file in image.files %}
+                    <p><img style="width:100%;" src="{{ site.url }}/images/{{ page.title | slugify}}/{{ file }}"></p>
+                    <p><a target="_blank" href="{{ site.url }}/images/{{ page.title | slugify}}/{{ file }}">{{ site.url }}/images/{{ page.title | slugify}}/{{ file }}</a></p>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- End Modal-->
+    {% endfor %}
+</div>
+
